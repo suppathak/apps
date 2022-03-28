@@ -37,17 +37,19 @@
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/togglebutton.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script>
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="../../../_static/sphinx-thebe.js"></script>
     <link rel="shortcut icon" href="../../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -217,6 +219,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../argocd-gitops/update_gpg_key.html">
      Update gpg key
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../argocd-gitops/argocd_notifications.html">
+     Where and How do I add notifications to my ArgoCD apps?
     </a>
    </li>
   </ul>
@@ -527,11 +534,28 @@
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../uwm/README.html">
-   User WorkLoad Monitoring
+  <a class="reference internal" href="../../reloader/README.html">
+   Reloader
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/>
   <label for="toctree-checkbox-15">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../reloader/monitoring-secrets-configmaps.html">
+     Monitoring secrets and configMaps for changes with Reloader
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../uwm/README.html">
+   User WorkLoad Monitoring
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/>
+  <label for="toctree-checkbox-16">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -544,11 +568,28 @@
   </ul>
  </li>
  <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../volsync/README.html">
+   Volsync
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/>
+  <label for="toctree-checkbox-17">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../volsync/using-volsync.html">
+     Using Volsync to back up persistent volumes
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="../../notebooks/README.html">
    Notebooks
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/>
-  <label for="toctree-checkbox-16">
+  <input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/>
+  <label for="toctree-checkbox-18">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -574,8 +615,8 @@
   <a class="reference internal" href="../../templates/README.html">
    Templates
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/>
-  <label for="toctree-checkbox-17">
+  <input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/>
+  <label for="toctree-checkbox-19">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -680,19 +721,21 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#loki-distributor">
-   Loki Distributor
+  <a class="reference internal nav-link" href="#requesting-loki-access">
+   Requesting Loki access
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#loki-frontend">
-   Loki Frontend
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#grafana">
-   Grafana
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#grafana-console-access">
+     Grafana Console access
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#loki-query-api-access">
+     Loki Query API access
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -715,19 +758,21 @@
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#loki-distributor">
-   Loki Distributor
+  <a class="reference internal nav-link" href="#requesting-loki-access">
+   Requesting Loki access
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#loki-frontend">
-   Loki Frontend
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#grafana">
-   Grafana
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#grafana-console-access">
+     Grafana Console access
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#loki-query-api-access">
+     Loki Query API access
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -741,63 +786,29 @@
   <div class="tex2jax_ignore mathjax_ignore section" id="loki-access">
 <h1>Loki Access<a class="headerlink" href="#loki-access" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://github.com/grafana/loki#loki-like-prometheus-but-for-logs">Loki</a> is a horizontally-scalable, highly-available, multi-tenant log aggregation system.</p>
-<p>An instance of Loki is available for use in OperateFirst.</p>
-<p>Loki access is open to public and is divided into 3 different components:</p>
+<p>An instance of Loki is available for use in Operate First.</p>
+<div class="section" id="requesting-loki-access">
+<h2>Requesting Loki access<a class="headerlink" href="#requesting-loki-access" title="Permalink to this headline">¶</a></h2>
+<p>Logs from Loki can be accessed in two different ways:</p>
 <ol class="simple">
-<li><p>Loki Distributor</p></li>
-<li><p>Loki Frontend</p></li>
-<li><p>Grafana</p></li>
+<li><p>Using the Grafana Console</p></li>
+<li><p>Using the Loki Query-API</p></li>
 </ol>
-<p>While pushing logs into Loki or while querying Loki for logs,
+<div class="section" id="grafana-console-access">
+<h3>Grafana Console access<a class="headerlink" href="#grafana-console-access" title="Permalink to this headline">¶</a></h3>
+<p>The Operate First Grafana console can be accessed at: <a class="reference external" href="https://grafana.operate-first.cloud/">https://grafana.operate-first.cloud/</a></p>
+<p>To request access to the Grafana Console, read the <a class="reference internal" href="../thanos/request_grafana_access.html"><span class="doc std std-doc">following guide</span></a>.</p>
+</div>
+<div class="section" id="loki-query-api-access">
+<h3>Loki Query API access<a class="headerlink" href="#loki-query-api-access" title="Permalink to this headline">¶</a></h3>
+<p>The Loki Query API can be accessed at:</p>
+<p><a class="reference external" href="https://loki-frontend-opf-observatorium.apps.smaug.na.operate-first.cloud/">https://loki-frontend-opf-observatorium.apps.smaug.na.operate-first.cloud/</a></p>
+<p>To request access to the Loki Query API, read the <a class="reference internal" href="request_loki_access.html"><span class="doc std std-doc">following guide</span></a>.</p>
+<p>Some documentation about the Loki Query API is available <a class="reference external" href="https://grafana.com/docs/loki/latest/api/">here</a>.</p>
+<p>While querying Loki for logs,
 you will need to have a header <code class="docutils literal notranslate"><span class="pre">'X-Scope-OrgID'</span></code> set in your requests.
-This header (OrgID) is used to identify tenants in a multi tenancy setup (<a class="reference external" href="https://grafana.com/docs/loki/latest/operations/multi-tenancy/">more info</a>),
-it will also play a role when adding a Loki Grafana datasource, more on that later.</p>
-<p>The value for this header can be anything.
-For our examples, we will set it to <code class="docutils literal notranslate"><span class="pre">'X-Scope-OrgID:</span> <span class="pre">opf-example'</span></code>.</p>
-<div class="section" id="loki-distributor">
-<h2>Loki Distributor<a class="headerlink" href="#loki-distributor" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>url: <a class="reference external" href="https://loki-distributor-opf-observatorium.apps.smaug.na.operate-first.cloud">https://loki-distributor-opf-observatorium.apps.smaug.na.operate-first.cloud</a></p></li>
-</ul>
-<p>This is the endpoint that can be used to push logs into Loki.</p>
-<p>Example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -v -H <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
-  -H <span class="s2">&quot;X-Scope-OrgID: opf-example&quot;</span> <span class="se">\</span>
-  -XPOST -s <span class="s2">&quot;https://loki-distributor-opf-observatorium.apps.smaug.na.operate-first.cloud/loki/api/v1/push&quot;</span> --data-raw <span class="se">\</span>
-  <span class="s1">&#39;{&quot;streams&quot;: [{ &quot;stream&quot;: { &quot;app&quot;: &quot;my-app-1&quot; }, &quot;values&quot;: [ [ &quot;1607526347000000000&quot;, &quot;my-log-line&quot; ] ] }]}&#39;</span>
-</pre></div>
+This header (OrgID) is used to identify tenants in a multi tenancy setup (<a class="reference external" href="https://grafana.com/docs/loki/latest/operations/multi-tenancy/">more info</a>).</p>
 </div>
-<p>This command sends a log line <code class="docutils literal notranslate"><span class="pre">&quot;my-log-line&quot;</span></code> with the label <code class="docutils literal notranslate"><span class="pre">&quot;app&quot;:</span> <span class="pre">&quot;my-app-1&quot;</span></code> for the timestamp <code class="docutils literal notranslate"><span class="pre">1607526347000000000</span></code> (<code class="docutils literal notranslate"><span class="pre">2020-12-09T15:05:47.000Z</span></code>) and uses <code class="docutils literal notranslate"><span class="pre">&quot;opf-example&quot;</span></code> as the OrgID (or tenant ID).</p>
-<p>More Info on <a class="reference external" href="https://grafana.com/docs/loki/latest/api/#post-lokiapiv1push">/push</a></p>
-</div>
-<div class="section" id="loki-frontend">
-<h2>Loki Frontend<a class="headerlink" href="#loki-frontend" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>url: <a class="reference external" href="https://loki-frontend-opf-observatorium.apps.smaug.na.operate-first.cloud">https://loki-frontend-opf-observatorium.apps.smaug.na.operate-first.cloud</a></p></li>
-</ul>
-<p>This is the endpoint that can be used to query logs from Loki.</p>
-<p>Example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -H <span class="s2">&quot;X-Scope-OrgID: opf-example&quot;</span> <span class="se">\</span>
-  -G -s  <span class="s2">&quot;https://loki-frontend-opf-observatorium.apps.smaug.na.operate-first.cloud/loki/api/v1/query_range&quot;</span> <span class="se">\</span>
-  --data-urlencode <span class="s1">&#39;query={app=&quot;my-app-1&quot;}&#39;</span> <span class="se">\</span>
-  --data-urlencode <span class="s1">&#39;start=1607526347000000000&#39;</span>
-</pre></div>
-</div>
-<p>This command queries logs from Loki using <code class="docutils literal notranslate"><span class="pre">&quot;app=&quot;my-app-1&quot;</span></code> label as the
-query and the start time for the query is set to <code class="docutils literal notranslate"><span class="pre">1607526347000000000</span></code> (<code class="docutils literal notranslate"><span class="pre">2020-12-09T15:05:47.000Z</span></code>).
-<em>Notice that we had to provide the same OrgID “opf-example” to be able to query for the logs that we pushed in.</em></p>
-<p>More Info on <a class="reference external" href="https://grafana.com/docs/loki/latest/api/#get-lokiapiv1query_range">/query_range</a></p>
-</div>
-<div class="section" id="grafana">
-<h2>Grafana<a class="headerlink" href="#grafana" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>url: <a class="reference external" href="https://grafana.operate-first.cloud">https://grafana.operate-first.cloud</a></p></li>
-</ul>
-<p>This is the endpoint for Grafana that can be used to query logs from Loki in a UI.</p>
-<p>To be able to query logs using Grafana, you will need to add a Grafana Datasource
-specific to your Org-ID (the <code class="docutils literal notranslate"><span class="pre">'X-Scope-OrgID'</span></code> header). To do that instructions are available <a class="reference internal" href="add_loki_grafana_datasource.html"><span class="doc std std-doc">here</span></a>.</p>
-<p>An example query should be accessible at the following url:
-<a class="reference external" href="https://grafana.operate-first.cloud/explore?orgId=1&amp;left=%5B%221607519717000%22,%221607526347000%22,%22loki-opf-example%22,%7B%22expr%22:%22%7Bapp%3D%22my-app-1%22%7D%22%7D%5D">https://grafana.operate-first.cloud/explore?orgId=1&amp;left=[“1607519717000”,”1607526347000”,”loki-opf-example”,{“expr”:”{app=”my-app-1”}”}]</a></p>
 </div>
 </div>
 
